@@ -9,3 +9,51 @@ output: html_document
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
+## Derivatives in R
+
+```{r}
+# functions D() and deriv() and deriv3() are synonymous
+#D(espression(x^2), "x") tells R that x is a symbol in a math expression, x is not an object I need to define
+
+fx <- expression(x^2)
+
+df_dx <- D(expr = fx, name = 'x') #can use single or double quotes
+df_dx
+
+#evaluate the slope of f(x) at x = 831
+
+x <- 831
+# eval() executes an expression with a known variable
+
+eval(expr = df_dx)
+
+gt <- expression(3 * t ^ 2 - 4 * cos(t))
+dg_dt <- D(expr = gt, name = 't')
+dg_dt
+```
+```{r}
+#practice
+
+fp <- expression(p^3 + 2)
+df_dp <- D(expr = fp, name = 'p')
+df_dp
+
+p <- 78
+
+eval(expr = df_dp)
+#eval() is different than just calling the function because eval() plugs in your provided value for the variable, while just calling the function keeps the variable as a variable
+```
+```{r}
+#find slope at a RANGE of values for x, use seq() rather than C() because you want to find MANY values at certain intervals rather than just a few values written out by hand
+fx <- expression(x^2)
+
+df__dx <- D(expr = fx, name = 'x') #can use single or double quotes
+df__dx
+
+x <- seq(from = -10, to = 10, by = 0.5)
+
+eval(expr = df__dx)
+
+
+```
+
