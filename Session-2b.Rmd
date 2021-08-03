@@ -1,0 +1,103 @@
+---
+title: "Session 2b"
+author: "Juliet"
+date: "8/3/2021"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(tidyverse)
+library(palmerpenguins)
+```
+
+## Plot a function in `ggplot2`
+
+```{r}
+#sometimes you use functions and sometimes expressions, depends on how it was written
+eq <- function(x) {
+  
+  3 * x^2 + 4
+}
+
+#Use stat_function() and tell it the range (dataframe, not a vector) over which you want to plot data, the end points of the ind. var
+ggplot(data = data.frame(x = c(1,100)), aes(x = x)) + 
+  stat_function(fun = eq)
+
+
+```
+
+### Task
+
+Plot $f(x) = 2.4-5x^3 + 2.1x^2$
+
+Plot this function over a range of -50 to 50
+
+```{r}
+
+eq_2 <- function(x) { 
+  2.4 - 5 * x^3 + 2.1 * x^2
+}
+
+ggplot(data = data.frame(x = c(-50, 50)), aes(x = x)) +
+  stat_function(fun = eq_2)
+
+#ggplot wants you to define the equation/function before you make the plot, don't enter the function in the code for the plot
+
+#alternative way to code the same thing:
+#ggplot(data = NULL) +
+  #stat_function(fun = eq_2)
+ # xlim(min = -50, max = 50)
+```
+
+### `penguins` body mass and flipper lengths
+
+basic ggplot scatterplot of body mass (y) and flipper length (x)
+
+```{r}
+ggplot(data = penguins, aes(x = flipper_length_mm, y = body_mass_g)) +
+         geom_point(aes(color = species)) +
+        scale_color_manual(values = c("red", "purple", "cyan")) +
+   labs(title = "Palmer Penguin Size Measurements",
+        caption = "Data collected by KB Gorman et al. at Palmer Station",
+        x = "Flipper Length (mm)",
+        y = "Body Mass (g)",
+        color = "Species") +
+        facet_wrap(~island) +
+        theme_light()
+#facet_wrap splits the graph into multiple graphs by island
+#google color pallets for options!
+#make sure to remember to put the close parenthesis that starts (data) after the aes(), not at the cery end! the geom_point comes after the () 
+#if something in ggplot has to do with a variable it needs to be within aes()
+#color = species makes the code do the work for us, we did not need to subset this data ourselves
+```
+
+### Higher order derivative
+
+```{r}
+gt <- expression(2.2 + 3.1 * t - 5.6 * t ^ 4)
+
+dg_dt <- D(expr = gt, 't')
+
+dg_dt
+
+d2g_dt2 <- D(expr = dg_dt, 't')
+
+d2g_dt2
+
+```
+
+## Partial Derivatives
+
+```{r}
+f_xyz <- expression(2*x*y - 3*(x^2)*(z^3))
+                    
+df_dx <- D(expr = f_xyz, 'x')
+
+df_dy <- D(expr = f_xyz, 'y')
+
+df_dz <- D(expr = f_xyz, 'z')
+                    
+                    
+```
+
